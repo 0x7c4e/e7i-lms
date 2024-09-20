@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model Course {
+    id          String  @id @default(uuid())
+    userId      String
+    title       String  @db.Text
+    description String? @db.Text
+    imageUrl    String? @db.Text
+    price       Float?
+    isPublished Boolean @default(false)
+
+    categoryId String?
+    category   Category? @relation(fields: [categoryId], references: [id])
+
+    attachments Attachment[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    @@index([categoryId])
+}
+
+model Category {
+    id      String   @id @default(uuid())
+    name    String   @unique
+    courses Course[]
+}
+
+model Attachment {
+    id   String @id @default(uuid())
+    name String
+    url  String @db.Text
+
+    courseId String
+    course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+    // This creates a relationship between Attachment and Course models
+    // courseId is a foreign key field
+    // course is a relation field that links to the Course model
+    // @relation specifies how the relationship works:
+    // fields: [courseId] indicates which field in this model is the foreign key
+    // references: [id] specifies which field it references in the Course model
+    // onDelete: Cascade means if the related Course is deleted, this Attachment will also be deleted
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    // This creates an index on the courseId field, which can improve query performance when querying by courseId
+    @@index([courseId])
+}
