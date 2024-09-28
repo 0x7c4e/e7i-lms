@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Space_Mono } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ToastProvider from "@/components/providers/toast-provider";
 
-const spacemono = Space_Mono({
+const spacemono = Space_Grotesk({
 	variable: "--font-geist-sans",
-	weight: ["400", "700"],
+	weight: ["300", "400", "500", "600", "700"],
 	subsets: ["latin"],
 });
 
