@@ -22,7 +22,7 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 	const onClick = () => {
 		router.push(href); // Navigate to the specified href
 	};
-
+  
 	return (
 		<button
 			onClick={onClick}
@@ -34,12 +34,14 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 			)}
 		>
 			<div className="flex items-center gap-x-2  py-4">
+        
 				<Icon
 					size={22}
 					className={cn("text-slate-500", isActive && "text-sky-700")}
 				/>
 				{label}
 			</div>
+      
 			<div
 				className={cn(
 					"ml-auto opacity-0 border-2 border-sky-700 h-full transition-all",
